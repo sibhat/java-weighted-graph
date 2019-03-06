@@ -4,31 +4,7 @@ package main.java.com.thoughtWorks;
 import java.util.*;
 
 public class Graph {
-    private class Node{
-        private String node;
-        private Integer weight;
 
-        public Node(String node, Integer weight) {
-            this.node = node;
-            this.weight = weight;
-        }
-
-        public String getNode() {
-            return node;
-        }
-
-        public void setNode(String node) {
-            this.node = node;
-        }
-
-        public Integer getWeight() {
-            return weight;
-        }
-
-        public void setWeight(Integer weight) {
-            this.weight = weight;
-        }
-    }
     private int length;
     private Map<String, ArrayList<Edge>> adjacentList;
 
@@ -60,11 +36,12 @@ public class Graph {
         HashMap<String, String> previous = new HashMap<>();
         HashMap<String, Boolean> visited = new HashMap<>();
         HashMap<Object, Integer> shortDistance = new HashMap<>();
-        PriorityQueue<Node> queue = new PriorityQueue<Node>();
+        PriorityQueue<Node> queue = new PriorityQueue<Node>(new Node());
         Node node;
         Iterator it = adjacentList.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry)it.next();
+            previous.put(pair.getKey().toString(), null);
             if(pair.getKey() == vertex1){
                 shortDistance.put(pair.getKey(), 0);
                 queue.add(new Node(pair.getKey().toString(), 0));
@@ -77,7 +54,8 @@ public class Graph {
 
         while (!queue.isEmpty()){
             node = queue.poll();
-            System.out.println(node);
+            ArrayList<Edge> neighbor = this.adjacentList.get(node.getNode());
+            System.out.println("neighbor are " + neighbor);
         }
 
 
