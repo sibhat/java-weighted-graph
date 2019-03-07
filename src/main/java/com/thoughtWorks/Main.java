@@ -5,15 +5,20 @@ public class Main {
         System.out.println("helooo");
         createEdge();
     }
-    public static void createEdge(){
+    private static void createEdge(){
         Graph graph = new Graph();
         createVertex(graph);
         graph.insertEdge("A", "B", 5);
-        graph.insertEdge("A", "C", 3);
-        graph.insertEdge("B", "D", 2);
-        graph.insertEdge("D", "E", 2);
-        graph.insertEdge("C", "D", 3);
-        graph.dijkstra("A", "C");
+        graph.insertEdge("B", "C", 4);
+        graph.insertEdge("C", "D", 8);
+        graph.insertEdge("D", "C", 8);
+        graph.insertEdge("D", "E", 6);
+        graph.insertEdge("A", "D", 5);
+        graph.insertEdge("C", "E", 1);
+        graph.insertEdge("E", "B", 3);
+//        graph.insertEdge("A", "E", 7);
+
+        System.out.println("From A to E" + graph.dijkstra("B", "B"));
         System.out.println("Graph value are "+ graph.toString());
     }
 

@@ -31,37 +31,79 @@ public class Graph {
         return true;
     }
 
-    public ArrayList<String> dijkstra(String vertex1, String vertex2) {
+    public ArrayList<String> dijkstra(String vertex1, String end) {
         ArrayList<String> path = new ArrayList<>();
         HashMap<String, String> previous = new HashMap<>();
         HashMap<String, Boolean> visited = new HashMap<>();
         HashMap<Object, Integer> shortDistance = new HashMap<>();
         PriorityQueue<Node> queue = new PriorityQueue<Node>(new Node());
         Node node;
-        Iterator it = adjacentList.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry)it.next();
+        System.out.println("neighbor first are " + this.adjacentList);
+        for (Map.Entry pair : this.adjacentList.entrySet()) {
             previous.put(pair.getKey().toString(), null);
-            if(pair.getKey() == vertex1){
+            if (pair.getKey() == vertex1) {
                 shortDistance.put(pair.getKey(), 0);
                 queue.add(new Node(pair.getKey().toString(), 0));
-            }else{
+            } else {
+                shortDistance.put(pair.getKey(), Integer.MAX_VALUE);
+
                 queue.add(new Node(pair.getKey().toString(), Integer.MAX_VALUE));
             }
             System.out.println(pair.getKey() + " = " + pair.getValue());
-            it.remove(); // avoids a ConcurrentModificationException
         }
+//        System.out.println("shortDistance 1st is " +shortDistance);
 
-        while (!queue.isEmpty()){
+        while (!queue.isEmpty()) {
             node = queue.poll();
-            ArrayList<Edge> neighbor = this.adjacentList.get(node.getNode());
-            System.out.println("neighbor are " + neighbor);
+//                System.out.println("curr node is " + node);
+
+                if (!visited.containsKey(node.getNode())) {
+                    visited.put(node.getNode(), true);
+                    ArrayList<Edge> neighbor = this.adjacentList.get(node.getNode());
+                    for(Edge edge: neighbor){
+                        System.out.println("edge is " + edge);
+                        if (edge.getVertex().equals(end)) {
+//                            String accNode = edge.getVertex();
+                            String accNode = node.getNode();
+                            path.add(edge.getVertex());
+                            while (previous.containsKey(accNode)) {
+                                path.add(accNode);
+                                accNode = previous.get(accNode);
+                            }
+                            return reverse(path);
+                        }
+                        int total = edge.getWeight();
+                        if(previous.containsKey(node.getNode())){
+                            total += shortDistance.get(node.getNode());
+                        }
+                        if(total < shortDistance.get(edge.getVertex())){
+                            shortDistance.put(edge.getVertex(), total);
+                            previous.put(edge.getVertex(), node.getNode());
+                            queue.add(new Node(edge.getVertex(), total));
+                        }
+                        System.out.println("previous is " +previous);
+                    }
+                }
+
+
+
         }
-
-
         return path;
     }
 
+    static ArrayList<String> reverse(ArrayList<String> e)
+    {
+        ArrayList<String> result = new ArrayList<>(e.size());
+        int j = e.size() - 1;
+
+        for (String b: e) {
+            result.add(e.get(j));
+            j --;
+        }
+        /*printing the reversed array*/
+        System.out.println("Reversed array is: \n");
+       return result;
+    }
 
     public int getLength() {
         return length;
