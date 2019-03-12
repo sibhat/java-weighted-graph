@@ -7,7 +7,10 @@ public class Graph {
 
     private int length;
     private Map<String, ArrayList<Edge>> adjacentList;
-
+    public Graph(ArrayList<String> data) {
+        adjacentList = new HashMap<>();
+        length = 0;
+    }
     public Graph() {
         adjacentList = new HashMap<>();
         length = 0;
@@ -18,7 +21,7 @@ public class Graph {
         ArrayList<Edge> emptyArray = new ArrayList<Edge>();
         this.adjacentList.put(vertex, emptyArray);
         this.length++;
-        System.out.println("vertex value is " + vertex);
+//        System.out.println("vertex value is " + vertex);
 
         return true;
     }
@@ -38,20 +41,19 @@ public class Graph {
         HashMap<Object, Integer> shortDistance = new HashMap<>();
         PriorityQueue<Node> queue = new PriorityQueue<Node>(new Node());
         Node node;
-        System.out.println("neighbor first are " + this.adjacentList);
         for (Map.Entry pair : this.adjacentList.entrySet()) {
             previous.put(pair.getKey().toString(), null);
-            if (pair.getKey() == vertex1) {
+            if (pair.getKey().equals(vertex1)) {
                 shortDistance.put(pair.getKey(), 0);
                 queue.add(new Node(pair.getKey().toString(), 0));
             } else {
                 shortDistance.put(pair.getKey(), Integer.MAX_VALUE);
-
                 queue.add(new Node(pair.getKey().toString(), Integer.MAX_VALUE));
             }
             System.out.println(pair.getKey() + " = " + pair.getValue());
         }
-//        System.out.println("shortDistance 1st is " +shortDistance);
+        System.out.println("shortDistance 1st is " +shortDistance);
+        System.out.println("adjacentList is " +this.adjacentList);
 
         while (!queue.isEmpty()) {
             node = queue.poll();
@@ -61,7 +63,7 @@ public class Graph {
                     visited.put(node.getNode(), true);
                     ArrayList<Edge> neighbor = this.adjacentList.get(node.getNode());
                     for(Edge edge: neighbor){
-                        System.out.println("edge is " + edge);
+//                        System.out.println("edge is " + edge);
                         if (edge.getVertex().equals(end)) {
 //                            String accNode = edge.getVertex();
                             String accNode = node.getNode();
@@ -81,17 +83,22 @@ public class Graph {
                             previous.put(edge.getVertex(), node.getNode());
                             queue.add(new Node(edge.getVertex(), total));
                         }
-                        System.out.println("previous is " +previous);
+//                        System.out.println("previous is " +previous);
                     }
                 }
-
-
-
         }
         return path;
     }
 
-    static ArrayList<String> reverse(ArrayList<String> e)
+
+
+
+
+
+
+
+
+    private static ArrayList<String> reverse(ArrayList<String> e)
     {
         ArrayList<String> result = new ArrayList<>(e.size());
         int j = e.size() - 1;
@@ -100,8 +107,6 @@ public class Graph {
             result.add(e.get(j));
             j --;
         }
-        /*printing the reversed array*/
-        System.out.println("Reversed array is: \n");
        return result;
     }
 

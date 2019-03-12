@@ -1,32 +1,38 @@
 package main.java.com.thoughtWorks;
 
+import java.util.ArrayList;
+
 public class Main {
-    public static void main(String[] args){
-        System.out.println("helooo");
-        createEdge();
-    }
-    private static void createEdge(){
+    private static MyFile file;
+    private static ArrayList<String> data;
+
+    public static void main(String[] args) {
+        data = fileRead();
         Graph graph = new Graph();
-        createVertex(graph);
-        graph.insertEdge("A", "B", 5);
-        graph.insertEdge("B", "C", 4);
-        graph.insertEdge("C", "D", 8);
-        graph.insertEdge("D", "C", 8);
-        graph.insertEdge("D", "E", 6);
-        graph.insertEdge("A", "D", 5);
-        graph.insertEdge("C", "E", 1);
-        graph.insertEdge("E", "B", 3);
-//        graph.insertEdge("A", "E", 7);
-
-        System.out.println("From A to E" + graph.dijkstra("B", "B"));
-        System.out.println("Graph value are "+ graph.toString());
+        createVertex(graph, data);
     }
 
-    private static void createVertex(Graph graph) {
-        graph.insertVertex("A");
-        graph.insertVertex("B");
-        graph.insertVertex("C");
-        graph.insertVertex("D");
-        graph.insertVertex("E");
+    private static ArrayList<String> fileRead() {
+//        file = new MyFile(".\\test.txt");
+        file = new MyFile("C:\\Users\\sibhat\\IdeaProjects\\ProblemOne\\src\\main\\java\\com\\thoughtWorks\\test.txt");
+        return file.getData();
+
+    }
+
+
+    private static void createVertex(Graph graph, ArrayList<String> data) {
+        String vertexLine = data.get(0);
+        String[] arr = vertexLine.split(", ");
+        for (String index : arr) {
+            String vertex1 = index.substring(index.length() - 3, index.length() - 2);
+            String vertex2 = index.substring(index.length() - 2, index.length() - 1);
+            int edge = Integer.parseInt(index.substring(index.length() - 1));
+
+            graph.insertVertex(vertex1);
+            graph.insertVertex(vertex2);
+            graph.insertEdge(vertex1, vertex2, edge);
+        }
+        System.out.println("From B to B" + graph.dijkstra("B", "B"));
+
     }
 }
