@@ -33,6 +33,17 @@ public class Main {
             graph.insertEdge(vertex1, vertex2, edge);
         }
         System.out.println("From B to B" + graph.dijkstra("B", "B"));
+        ArrayList<String> testDistance = new ArrayList<String>();
+        testDistance.add("A");
+        testDistance.add("E");
+//        testDistance.add("B");
+//        testDistance.add("C");
+        testDistance.add("D");
+//        testDistance.add("C");
+        System.out.println("distanceRoutes A-E-D is: " + graph.distanceRoutes(testDistance));
+        System.out.println("numberOfTrips from C-C is: " + graph.numberOfTrips("C", "C", 3));
+
+
 
     }
 }
